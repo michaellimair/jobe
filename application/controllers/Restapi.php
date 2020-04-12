@@ -172,7 +172,8 @@ class Restapi extends REST_Controller {
 
         // Get the the request languages and check it.
         $language = $run->language_id;
-        if (!isset($this->languages[$language])) {
+        $has_language = is_array($this->languages) ? array_key_exists($language, $this->languages) : property_exists($this->languages, $language);
+        if (!$has_language) {
             $this->response("Language '$language' is not known", 400);
         }
         $reqdTaskClass = ucwords($language) . '_Task';
